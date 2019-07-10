@@ -22,7 +22,7 @@ const plugins = basePlugins
 
 module.exports = {
   entry: {
-    lib: ['./lib/index.js'],
+    dazzle: ['./lib/index.js'],
   },
 
   resolve: {
@@ -31,9 +31,9 @@ module.exports = {
 
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name].js',
+    filename: '[name].min.js',
     publicPath: '/',
-    sourceMapFilename: '[name].js.map',
+    sourceMapFilename: '[name].min.js.map',
     library: 'dazzle',
     libraryTarget: 'umd',
     umdNamedDefine: true,
