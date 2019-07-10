@@ -53,6 +53,7 @@ describe('<WidgetFrame />', () => {
     expect(component.find(DefaultFrame).first().prop('children')).to.equal(children);
     expect(component.find(DefaultFrame).first().prop('editable')).to.equal(editable);
     expect(component.find(DefaultFrame).first().prop('title')).to.equal(title);
+    expect(component.find('WidgetFrame div').first().prop('style').opacity).to.equal(1);
   });
 
   it('DefaultFrame onRemove should be called when close is clicked', () => {
@@ -88,8 +89,7 @@ describe('<WidgetFrame />', () => {
         />
       </ContainerWithDndContext>
     );
-    component.find('a').simulate('click');
-
+    component.find('a.remove').simulate('click');
     expect(onRemove.calledWithExactly({
       rows: [{
         columns: [{
@@ -97,7 +97,7 @@ describe('<WidgetFrame />', () => {
           widgets: [],
         }],
       }],
-    })).to.equal(true);
+    }, 0, 0, 0)).to.equal(true);
   });
 
   it('Customized frame should be used if provided', () => {
@@ -131,9 +131,11 @@ describe('<WidgetFrame />', () => {
     const title = 'Widget Title';
     const OriginalWidgetFrame = WidgetFrame.DecoratedComponent;
     const identity = (el) => el;
+    const isDragging = false;
     const settings = {
       color: '#E140AD',
     };
+
     const component = mount(
       <ContainerWithDndContext>
         <OriginalWidgetFrame
@@ -145,6 +147,7 @@ describe('<WidgetFrame />', () => {
           frameSettings={settings}
           connectDragSource={identity}
           connectDropTarget={identity}
+          isDragging={isDragging}
         />
       </ContainerWithDndContext>
     );
@@ -153,5 +156,6 @@ describe('<WidgetFrame />', () => {
     expect(component.find(TestCustomFrame).first().prop('editable')).to.equal(editable);
     expect(component.find(TestCustomFrame).first().prop('title')).to.equal(title);
     expect(component.find(TestCustomFrame).first().prop('settings')).to.equal(settings);
+    expect(component.find(TestCustomFrame).first().prop('isDragging')).to.equal(isDragging);
   });
 });
